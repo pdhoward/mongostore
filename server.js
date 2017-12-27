@@ -17,28 +17,8 @@ const app =  express();
 ////////////////// db config to capture messages   //////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-const db =          process.env.MONGODB_URI || setup.db.uri;
-const host =        setup.SERVER.HOST;
-const port =        setup.SERVER.PORT;
 
-let options = {
-  useMongoClient: true,
-  poolSize: 10, // Maintain up to 10 socket connections
-};
-mongoose.Promise = bluebird;
-mongoose.connect(db, options, function(error) {
-  // Log any errors connecting with mongoose
-  if (error) {
-    console.error(error);
-  }
-  else {
-    console.log("mongoose connection is successful");
-    //////////////////////////////////////////////
-    /////    drop and restore collection    /////
-    ////////////////////////////////////////////
-    require('../data')
-    }
-  });
+require('./db/mongoose')(dbURI);
 
 //////////////////////////////////////////////////////////////////////////
 ////////////////////  Register Middleware       /////////////////////////
