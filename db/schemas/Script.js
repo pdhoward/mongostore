@@ -1,8 +1,8 @@
 'use strict';
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var scriptSchema = mongoose.Schema({
+const scriptSchema = mongoose.Schema({
   intent: String,
   id: String,
   script: String,

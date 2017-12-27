@@ -1,79 +1,39 @@
 'use strict';
 
 ///////////////////////////////////////////////////////////////////////
-////////              CHAOTIC BOTS MACHINE LEARNING           ////////
-//////// intialize classifier array from local config or db  /////////
-//////// Permits Lightweight training for rapid deployment   /////////
-///////                      c 2017 xio                      ////////
+///////           placeholder fo loading agents              ////////
 /////////////////////////////////////////////////////////////////////
-require( 'dotenv' ).config( {silent: true} );
 
-import natural                     from 'natural';
-import uuid                        from 'node-uuid';
-import configureClassifications    from './config/intent';
-import Classifications             from '../schemas/Intent';
-import { g, b, gr, r, y }          from '../../color/chalk';
+const Agent  =              require('../schemas/Agent')
+const mongoose =            require('mongoose')
+const uuid =                require('node-uuid')
+const testAgents  =         require('../data/agents')
+const { g, b, gr, r, y } =  require('../../color/chalk')
 
-var fileId = process.env.CHAOTIC_CLIENT_ID + '.json';
-var classArray = [];
-const classifier = new natural.BayesClassifier();
+const limit = 1;
 
-function mapdata(cb){
-  classArray = configureClassifications;
-  classArray.map(function(document){
-    classifier.addDocument(document.script, document.intent);
-      })
-  console.log("Mapping Completed")
-  cb()
-}
-
-function traindata(cb) {
-  classifier.train();
-  console.log("Training Completed")
-  cb()
-}
-
-// trained ML saved to local storage
-function savedata(parm, cb) {
-  classifier.save(parm, function(err, classifier) {
-  console.log('Saving Completed')
-  cb()
-  });
-}
-
-// Trained ML data exported for use by handlers and microservices
-function loaddata(parm, cb) {
-  natural.BayesClassifier.load(parm, null, function(err, classifier) {
-      console.log('Export Completed')
-      module.exports.classifier = classifier;
-      return cb()
-  });
-}
-
-module.exports.getClassifications = function () {
-      Classifications.find({}).exec(function (err, data){
-        if (data.length === 0){
-            mapdata(function(){
-              traindata(function(){
-                var parm = fileId;
-                savedata(parm, function(){
-                  loaddata(parm, function(){
-                    return
-                  })
+function createDefaultAgents () {
+      Agent.find({}).limit(limit).exec(function (err, collection){
+          if (collection.length === 0) {
+            // iterate over the set of agents for initialization and create entries
+            testAgents.map(function(agent) {
+                let newAgent = new Agent(agent)
+                newAgent.save(function (err, data) {
+                  if(err) {
+                    console.log(err);
+                    return res.status(500).json({msg: 'internal server error'});
+                  }
                 })
               })
-            })
+            console.log(g('Test Agents Initialized in MongoDB'))
+            return
           }
           else {
-            data.map(function(document){
-              //classifier.addDocument(document.text, document.class);
-              // need to extract client classifier  -- already trained
-            })
-            natural.BayesClassifier.load(fileId, null, function(err, classifier) {
-                if (err) { console.log({err: err})}
-                console.log(g('Classifier initialized from db '))
-            });
-          return
-        }
-      })
+            console.log(g('Agents Exist in MongoDB'))
+          }
+        })
+      }
+
+module.exports = {
+  createDefaultAgents: createDefaultAgents
 }

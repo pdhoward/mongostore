@@ -3,7 +3,8 @@
 const mongoose = require("mongoose");
 const uuidv1 =  require('uuid/v1')
 
-const memberSchema = mongoose.Schema({
+// placeholder
+const agentSchema = mongoose.Schema({
   avatarURL: String,
   firstname: String,
   lastname: String,
@@ -14,4 +15,4 @@ const memberSchema = mongoose.Schema({
   id: { type: String, default: uuidv1() }
 })
 
-module.exports = mongoose.model('Member', memberSchema);
+module.exports = mongoose.model('Agent', agentSchema);
