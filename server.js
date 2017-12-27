@@ -12,13 +12,17 @@ const api =         require('./api')
 const mongoose =    require("mongoose");
 const bluebird =    require("bluebird");
 const setup =       require('../config').init;
+
 const app =  express();
+const host =        setup.SERVER.HOST;
+const port =        setup.SERVER.PORT;
+
 //////////////////////////////////////////////////////////////////////////
 ////////////////// db config to capture messages   //////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-
-require('./db/mongoose')(dbURI);
+const db = process.env.MONGODB_URI || setup.db.uri;
+require('./db/mongoose')(db);
 
 //////////////////////////////////////////////////////////////////////////
 ////////////////////  Register Middleware       /////////////////////////
