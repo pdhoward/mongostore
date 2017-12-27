@@ -33,6 +33,26 @@ app.use(express.static('public'));
 app.options('*', cors());
 app.use(cors())
 
+///////////////////////////////////////////////////////////////////////
+/////////////////// messaging alert for platform errors ///////////////
+//////////////////////////////////////////////////////////////////////
+
+const mailObject = {
+  from: '"ChaoticBots 👥" <chaoticbotshelp@gmail.com>',
+  to: 'patrick.howard@hotmail.com',
+  subject: 'Platform Error',
+  text: ''
+}
+process.on('uncaughtException', function (er) {
+    console.error(er.stack)
+    mailObject.text = er.stack;
+    transport.sendMail(mailObject, function (er) {
+       if (er) console.error(er)
+       process.exit(1)
+    })
+  })
+
+
 /////////////////////////////////////////////////////////////////////////////////////
 /////////// Register and Config Routes for Admin Functions /////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
