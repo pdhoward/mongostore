@@ -1,0 +1,22 @@
+{
+  "name": "dbstore",
+  "version": "0.7.0",
+  "main": "app.js",
+  "engines": {
+    "node": ">=4.0.0",
+    "npm": ">=3.0.0"
+  },
+  "scripts": {
+    "start": "nodemon ./server"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "clone": "^2.1.1",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
+    "uuid": "3.1.0"
+  },
+  "author": "xio",
+  "license": "MIT",
+  "homepage": "http://www.xiollc.com"
+}
