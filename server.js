@@ -9,9 +9,44 @@ const bodyParser =  require('body-parser')
 const cors =        require('cors')
 const config =      require('./db/config')
 const api =         require('./api')
+const mongoose =    require("mongoose");
+const bluebird =    require("bluebird");
+const setup =       require('../config').init;
+const app =  express();
+//////////////////////////////////////////////////////////////////////////
+////////////////// db config to capture messages   //////////////////////
+////////////////////////////////////////////////////////////////////////
 
-const app = express()
-app.use(express.static('public'))
+const db =          process.env.MONGODB_URI || setup.db.uri;
+const host =        setup.SERVER.HOST;
+const port =        setup.SERVER.PORT;
+
+let options = {
+  useMongoClient: true,
+  poolSize: 10, // Maintain up to 10 socket connections
+};
+mongoose.Promise = bluebird;
+mongoose.connect(db, options, function(error) {
+  // Log any errors connecting with mongoose
+  if (error) {
+    console.error(error);
+  }
+  else {
+    console.log("mongoose connection is successful");
+    //////////////////////////////////////////////
+    /////    drop and restore collection    /////
+    ////////////////////////////////////////////
+    require('../data')
+    }
+  });
+
+//////////////////////////////////////////////////////////////////////////
+////////////////////  Register Middleware       /////////////////////////
+////////////////////////////////////////////////////////////////////////
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(express.static('public'));
+app.options('*', cors());
 app.use(cors())
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -66,9 +101,7 @@ app.use((req, res, next) => {
     console.log("Temp Workaround on Server Auth" )
     req.token = "123456"
     next()
-  //  res.status(403).send({
-  //    error: 'Please provide an Authorization header to identify yourself (can be whatever you want)'
-  //  })
+
   }
 })
 
@@ -76,13 +109,6 @@ app.use((req, res, next) => {
 // administrative apis - membership management
 app.use('/admin', adminRoute)
 
-
-/*
-// api catalogue - default data
-app.get('/api', (req, res) => {
-  res.send(api.get(req.token))
-})
-*/
 app.get('/api', (req, res) => {
   res.send(api.getClient(req.token))
 })
