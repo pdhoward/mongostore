@@ -6,9 +6,8 @@
 
 const Script =              require('../schemas/Script')
 const mongoose =            require('mongoose')
-const uuid =                require('node-uuid')
 const testScripts =         require('../data/scripts')
-const { g, b, gr, r, y } =  require('../../color/chalk')
+const { g, b, gr, r, y } =  require('../../console')
 
 module.exports.array = [];
 

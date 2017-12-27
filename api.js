@@ -7,10 +7,10 @@
 
 const clone =     require('clone')
 const uuidv1 =    require('uuid/v1');
-const config =    require('./db/config')
-const agents =    require('./db/agents')
-const clients =   require('./db/members')
-const context =   require('./db/context')
+const config =    require('./db/data/config')
+const agents =    require('./db/data/agents')
+const clients =   require('./db/data/members')
+const context =   require('./db/data/context')
 
 // unit test db stores
 const db = {}

@@ -9,7 +9,7 @@ const bluebird =            require('bluebird');
 const initializeMembers =   require('./initialize/getmembers')
 const initializeScripts =   require('./initialize/getscripts')
 const initializeAgents =    require('./initialize/getagents')
-const { g, b, gr, r, y } =  require('../color/chalk')
+const { g, b, gr, r, y } =  require('../console')
 
 let options = {
   useMongoClient: true,
@@ -18,7 +18,7 @@ let options = {
 
 module.exports = function (dbURI) {
     mongoose.Promise = bluebird;
-    mongoose.connect(db, options)
+    mongoose.connect(dbURI, options)
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, r('connection error...')));
     db.once('open', function callback() {

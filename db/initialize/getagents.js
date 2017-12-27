@@ -6,13 +6,12 @@
 
 const Agent  =              require('../schemas/Agent')
 const mongoose =            require('mongoose')
-const uuid =                require('node-uuid')
 const testAgents  =         require('../data/agents')
-const { g, b, gr, r, y } =  require('../../color/chalk')
+const { g, b, gr, r, y } =  require('../../console')
 
 const limit = 1;
 
-function createDefaultAgents () {
+function getAgents () {
       Agent.find({}).limit(limit).exec(function (err, collection){
           if (collection.length === 0) {
             // iterate over the set of agents for initialization and create entries
@@ -35,5 +34,5 @@ function createDefaultAgents () {
       }
 
 module.exports = {
-  createDefaultAgents: createDefaultAgents
+  getAgents: getAgents
 }

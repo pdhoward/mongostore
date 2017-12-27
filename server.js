@@ -8,16 +8,16 @@ const express =     require('express')
 const bodyParser =  require('body-parser')
 const cors =        require('cors')
 const api =         require('./api')
-const setup =       require('../config').init;
+const setup =       require('./config').init();
+const transport =   require('./setup/gmail')
 
 const app =  express();
-const host =        setup.SERVER.HOST;
-const port =        setup.SERVER.PORT;
+//const host =        setup.SERVER.HOST;
+const port =        setup.port;
 
 //////////////////////////////////////////////////////////////////////////
 ////////////////// db config to capture messages   //////////////////////
 ////////////////////////////////////////////////////////////////////////
-
 const db = process.env.MONGODB_URI || setup.db.uri;
 require('./db/mongoose')(db);
 
@@ -207,6 +207,6 @@ app.get('/api/geopoints', bodyParser.json(), (req, res) => {
 
 
 // spin up http server
-app.listen(config.port, () => {
-  console.log('Server listening on port %s, Ctrl+C to stop', config.port)
+app.listen(port, () => {
+  console.log('Server listening on port %s, Ctrl+C to stop', port)
 })

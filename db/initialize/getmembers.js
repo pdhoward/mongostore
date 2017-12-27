@@ -2,9 +2,8 @@
 
 const Member =              require('../schemas/Member')
 const mongoose =            require('mongoose')
-const uuid =                require('node-uuid')
 const testMembers =         require('../data/members')
-const { g, b, gr, r, y } =  require('../../color/chalk')
+const { g, b, gr, r, y } =  require('../../console')
 
 const limit = 1;
 
