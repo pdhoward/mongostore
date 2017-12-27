@@ -4,11 +4,12 @@
 ////////   connect to our document store and initialize //////////////
 //////////////////////////////////////////////////////////////////////
 
-import mongoose                   from 'mongoose';
-import initializeMembers          from './initialize/getmembers';
-import initializeScripts          from './initialize/getscripts';
-import initializeAgents           from './initialize/getagents';
-import { g, b, gr, r, y }         from '../color/chalk';
+const mongoose =            require('mongoose');
+const bluebird =            require('bluebird');
+const initializeMembers =   require('./initialize/getmembers')
+const initializeScripts =   require('./initialize/getscripts')
+const initializeAgents =    require('./initialize/getagents')
+const { g, b, gr, r, y } =  require('../color/chalk')
 
 let options = {
   useMongoClient: true,

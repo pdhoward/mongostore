@@ -1,10 +1,14 @@
 'use strict';
 
 ///////////////////////////////////////////////////////////////////////
-////////     intialize intent array from test or db     //////////////
+////////     intialize script array from test or db     //////////////
 //////////////////////////////////////////////////////////////////////
 
-// Intent is the schema
+const Script =              require('../schemas/Script')
+const mongoose =            require('mongoose')
+const uuid =                require('node-uuid')
+const testMembers =         require('../data/members')
+const { g, b, gr, r, y } =  require('../../color/chalk')
 import Intent                      from '../schemas/Intent';
 import mongoose                    from 'mongoose';
 import uuid                        from 'node-uuid';

@@ -1,11 +1,10 @@
 'use strict';
 
-// Channel is the schema
-import Member                     from '../schemas/Member';
-import mongoose                   from 'mongoose';
-import uuid                       from 'node-uuid';
-import testMembers                from '../data/members';
-import { g, b, gr, r, y }         from '../../color/chalk';
+const Member =              require('../schemas/Member')
+const mongoose =            require('mongoose')
+const uuid =                require('node-uuid')
+const testMembers =         require('../data/members')
+const { g, b, gr, r, y } =  require('../../color/chalk')
 
 const limit = 1;
 
@@ -22,7 +21,7 @@ function createDefaultMembers () {
                   }
                 })
               })
-            console.log(g('Test Members Loaded'))
+            console.log(g('Test Members Initialized in MongoDB'))
             return
           }
           else {

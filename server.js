@@ -7,10 +7,7 @@
 const express =     require('express')
 const bodyParser =  require('body-parser')
 const cors =        require('cors')
-const config =      require('./db/config')
 const api =         require('./api')
-const mongoose =    require("mongoose");
-const bluebird =    require("bluebird");
 const setup =       require('../config').init;
 
 const app =  express();
