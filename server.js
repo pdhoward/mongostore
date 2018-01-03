@@ -78,6 +78,13 @@ app.get('/', (req, res) => {
   res.send(help)
 })
 
+//  TEST CHAT
+
+app.post('/chat', (req, res) => {
+  console.log("this worked")
+  console.log(req.body)
+})
+
 // display content of various test db stores
 app.get('/showagents', (req, res) => {
   res.send(api.showagents())
