@@ -12,6 +12,7 @@ const agents =    require('./db/data/agents')
 const clients =   require('./db/data/members')
 const context =   require('./db/data/context')
 
+const dbMember = require('./api/members')
 // unit test db stores
 const db = {}
 const agentDB = {}
@@ -252,10 +253,42 @@ function updateRecord(data, contact){
     resolve(newarr)
   })
 }
+/////////////////////////////////////
+// REFACTOR - TEST MONGO INTEGRATION
+////////////////////////////////////
+const addMember = (token, contact, cb) => {
 
+  // need a model design - some kind of an org code
+  let data = getClient(token)
+
+  // async await function to drive synchronous processing of db update
+  async function thread(contact) {
+    let result = await dbMember.put(contact)
+    return result
+  }
+
+  thread(contact).then((result) => {
+    cb(result)
+  }).catch((err) => {
+    console.log("ERROR IN Add Member PROCESSING")
+    console.log(err)
+  })
+}
+/*
+function updateRecord(data, contact){
+  return new Promise((resolve, reject) => {
+    let newarr = data.map((c) => {
+    if (c.id == contact.id) return contact
+    return c
+    })
+    resolve(newarr)
+  })
+}
+*/
 module.exports = {
   get,
   add,
+  addMember,
   remove,
   showagents,
   showclients,
