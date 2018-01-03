@@ -258,6 +258,11 @@ function updateRecord(data, contact){
 ////////////////////////////////////
 const addMember = (token, contact, cb) => {
 
+  console.log("ENTERED API")
+  console.log(token)
+  console.log(contact)
+  console.log(cb)
+
   // need a model design - some kind of an org code
   let data = getClient(token)
 

@@ -99,11 +99,20 @@ app.post('/api/updateprofile', bodyParser.json(), (req, res) => {
 
 */
 
-app.post('/chat', (req, res) => {
+app.post('/chat', bodyParser.json(), (req, res) => {
   console.log("this worked")
   console.log(req.body)
   //res.send(req.body)
-  res.send(api.addMember(req.body))
+  if (req.body) {
+        api.addMember(req.token, req.body, function(response){
+          res.status(200).send(response)
+      })
+    }
+    else {
+      res.status(403).send({
+        error: 'Please provide all required data'
+      })
+    }
 })
 
 // display content of various test db stores
