@@ -83,6 +83,7 @@ app.get('/', (req, res) => {
 app.post('/chat', (req, res) => {
   console.log("this worked")
   console.log(req.body)
+  res.send(req.body)
 })
 
 // display content of various test db stores
