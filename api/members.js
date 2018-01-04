@@ -8,32 +8,22 @@ const Member =     require('../db/schemas/Member')
 
 module.exports = {
 
-  get: function({}, cb) {
+  get: function() {
 
-   Member.find({}, function(err, response) {
-      if (err) {
-        if (err.error !== 'not_found') {
-          return cb(err);
-        } else {
-          return cb(null);
-        }};
-      return cb(err, response);
-    });
+    return new Promise((resolve, reject) => {
+      Member.find({}, function(err, response) {
+          if (err) {
+            if (err.error !== 'not_found') {
+              resolve(err)
+            } else {
+              reject(err)
+            }};
+          resolve(response);
+        });
+       })
+      },
 
-  },
-/*
-///////////
-function updateRecord(data, contact){
-  return new Promise((resolve, reject) => {
-    let newarr = data.map((c) => {
-    if (c.id == contact.id) return contact
-    return c
-    })
-    resolve(newarr)
-  })
-}
-////////// */
-  put: function(params, cb) {
+  put: function(params) {
 
     let member = new Member(params);
     return new Promise((resolve, reject) => {

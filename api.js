@@ -219,6 +219,8 @@ const addProfile = (token, profile) => {
   return profile
 }
 
+
+/*
 const getProfile = (token) => {
   let data = profileDB[token]
   if (data == null) {
@@ -226,6 +228,34 @@ const getProfile = (token) => {
   }
   return data
 }
+*/
+///////////////////////////////////////////////////////////
+/////// REFACTOR CONNECT GET PROFILE TO MONGO ////////////
+/////////////////////////////////////////////////////////
+const getMembers = (token, cb) => {
+  console.log("ENTERED getProfile")
+
+  // need a model design - some kind of an org code
+  let data = getClient(token)
+
+  // async await function to drive synchronous processing of db update
+  async function thread() {
+    let result = await dbMember.get()
+    return result
+  }
+
+  thread().then((result) => {
+    cb(result)
+  }).catch((err) => {
+    console.log("ERROR IN Add Member PROCESSING")
+    console.log(err)
+  })
+}
+
+
+///////////////////////////////////////////////////////////
+/////// REFACTOR CONNECT Update Profile in Mongo  ////////
+/////////////////////////////////////////////////////////
 
 const updateProfile = (token, contact, cb) => {
   let data = getClient(token)
@@ -253,12 +283,12 @@ function updateRecord(data, contact){
     resolve(newarr)
   })
 }
-/////////////////////////////////////
-// REFACTOR - TEST MONGO INTEGRATION
-////////////////////////////////////
+///////////////////////////////////////////////////
+// REFACTOR - TEST MONGO INTEGRATION with CHAT WIDGET
+/////////////////////////////////////////////////
 const addMember = (token, contact, cb) => {
 
-  console.log("ENTERED API")
+  console.log("ENTERED addMember")
   let param = {}
   param.firstname = contact.name
 
@@ -272,25 +302,13 @@ const addMember = (token, contact, cb) => {
   }
 
   thread(contact).then((result) => {
-    console.log("Finished Thread")
-    console.log(result)
     cb(result)
   }).catch((err) => {
     console.log("ERROR IN Add Member PROCESSING")
     console.log(err)
   })
 }
-/*
-function updateRecord(data, contact){
-  return new Promise((resolve, reject) => {
-    let newarr = data.map((c) => {
-    if (c.id == contact.id) return contact
-    return c
-    })
-    resolve(newarr)
-  })
-}
-*/
+
 module.exports = {
   get,
   add,
@@ -304,6 +322,7 @@ module.exports = {
   addAgent,
   removeAgent,
   getClient,
+  getMembers,
   addClient,
   removeClient,
   getContext,

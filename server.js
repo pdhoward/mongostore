@@ -147,10 +147,16 @@ app.use((req, res, next) => {
 // administrative apis - membership management
 app.use('/admin', adminRoute)
 
+/*
 app.get('/api', (req, res) => {
-  res.send(api.getClient(req.token))
+  res.send(api.getMembers(req.token))
 })
-
+*/
+app.get('/api', bodyParser.json(), (req, res) => {
+  api.getMembers(req.token, function(response){
+    res.status(200).send(response)
+  })
+})
 
 app.delete('/api/:id', (req, res) => {
   res.send(api.removeClient(req.token, req.params.id))
