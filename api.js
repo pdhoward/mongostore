@@ -259,20 +259,21 @@ function updateRecord(data, contact){
 const addMember = (token, contact, cb) => {
 
   console.log("ENTERED API")
-  console.log(token)
-  console.log(contact)
-  console.log(cb)
+  let param = {}
+  param.firstname = contact.name
 
   // need a model design - some kind of an org code
   let data = getClient(token)
 
   // async await function to drive synchronous processing of db update
   async function thread(contact) {
-    let result = await dbMember.put(contact)
+    let result = await dbMember.put(param)
     return result
   }
 
   thread(contact).then((result) => {
+    console.log("Finished Thread")
+    console.log(result)
     cb(result)
   }).catch((err) => {
     console.log("ERROR IN Add Member PROCESSING")

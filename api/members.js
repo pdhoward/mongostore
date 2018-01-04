@@ -36,15 +36,15 @@ function updateRecord(data, contact){
   put: function(params, cb) {
 
     let member = new Member(params);
-
-    member.save(function (err, response){
-      if (err) {
-          console.log("Error When Saving Text Message")
-          return cb(err);
-        }
-      return cb(err, response);
+    return new Promise((resolve, reject) => {
+        member.save(function (err, response) {
+          if (err) {
+            console.log("Error When Saving Text Message")
+            reject(err)
+          }
+          resolve(response)
     })
-
+   })
   },
 
   update: function(params1, params2, params3, cb) {
