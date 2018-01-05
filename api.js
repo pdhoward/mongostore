@@ -286,6 +286,8 @@ const addMember = (token, contact, cb) => {
   param.subscribe.prayeralerts = false
   param.subscribe.updates = false
   param.subscribe.moments = false
+  param.avatarURL = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y"
+  param.email = "you@example.com"
   param.firstname = contact.name
 
   // need a model design - some kind of an org code
