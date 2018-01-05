@@ -4,10 +4,17 @@ const mongoose = require("mongoose");
 const uuidv1 =  require('uuid/v1')
 
 const memberSchema = mongoose.Schema({
-  avatarURL: String,
+  avatarURL: {
+    type: String
+    default: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y"
+    },
   firstname: String,
   lastname: String,
-  email: String,
+  email: {
+    type: String,
+    default: "you@example.com"
+    match: [/.+\@.+\..+/, "Please enter a valid e-mail address"]
+  },
   cell: String,
   subscribe: Object,
   postdate: { type: Date, default: Date.now },

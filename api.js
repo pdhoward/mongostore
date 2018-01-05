@@ -281,6 +281,11 @@ const addMember = (token, contact, cb) => {
 
   console.log("ENTERED addMember")
   let param = {}
+  param.subscribe = {}
+  // set defaults
+  param.subscribe.prayeralerts = false
+  param.subscribe.updates = false
+  param.subscribe.moments = false
   param.firstname = contact.name
 
   // need a model design - some kind of an org code
