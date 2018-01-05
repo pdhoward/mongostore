@@ -220,20 +220,11 @@ const addProfile = (token, profile) => {
 }
 
 
-/*
-const getProfile = (token) => {
-  let data = profileDB[token]
-  if (data == null) {
-    data = profileDB[token] = clone(context)
-  }
-  return data
-}
-*/
 ///////////////////////////////////////////////////////////
 /////// REFACTOR CONNECT GET PROFILE TO MONGO ////////////
 /////////////////////////////////////////////////////////
 const getMembers = (token, cb) => {
-  console.log("ENTERED getProfile")
+  console.log("ENTERED getMembers")
 
   // need a model design - some kind of an org code
   let data = getClient(token)

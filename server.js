@@ -80,25 +80,6 @@ app.get('/', (req, res) => {
 
 //  TEST CHAT
 
-/*
-
-// notice the different pattern for handling async db update using await and cb
-app.post('/api/updateprofile', bodyParser.json(), (req, res) => {
-  if (req.body) {
-        api.updateProfile(req.token, req.body, function(response){
-          res.status(200).send(response)
-      })
-    }
-    else {
-      res.status(403).send({
-        error: 'Please provide all required data'
-      })
-    }
-})
-
-
-*/
-
 app.post('/chat', bodyParser.json(), (req, res) => {
   console.log("this worked")
   console.log(req.body)
