@@ -50,8 +50,10 @@ module.exports = {
   },
 
   delete: function(id) {
+    console.log("DEBUG DELETE")
+    console.log(id)
     return new Promise((resolve, reject) => {
-      Member.remove(id, function(err, response) {
+      Member.remove({id: id}, function(err, response) {
           if (err) {
             if (err.error !== 'not_found') {
               resolve(err)
