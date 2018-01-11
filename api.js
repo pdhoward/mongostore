@@ -52,12 +52,12 @@ const updateMember = (token, contact, cb) => {
 
   // need a model design - some kind of an org code
   //let data = getClient(token)
-  async function thread(data, contact) {
-    let result = await updateRecord(data, contact)
+  async function thread(contact) {
+    let result = await dbMember.update(contact)
     return result
   }
 
-  thread(data, contact).then((profileArray) => {
+  thread(contact).then((profileArray) => {
     cb(profileArray)
   }).catch((err) => {
     console.log("ERROR IN updateProfile PROCESSING")
@@ -145,7 +145,7 @@ const deleteMember = (token, id, cb) => {
   thread(id).then((result) => {
     cb(result)
   }).catch((err) => {
-    console.log("ERROR IN Add Member PROCESSING")
+    console.log("ERROR IN DELETE MEMBER PROCESSING")
     console.log(err)
   })
 }

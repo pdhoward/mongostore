@@ -115,7 +115,7 @@ app.get('/api', bodyParser.json(), (req, res) => {
 // remove member -- update to set a boolean flag instead
 app.delete('/api/:id', (req, res) => {
   api.deleteMember(req.token, req.params.id, function(response){
-    res,status(200).send(response)
+    res.status(200).send(response)
   })
 })
 
