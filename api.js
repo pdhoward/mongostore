@@ -30,8 +30,6 @@ const getMembers = (token, cb) => {
 
   // need a model design - some kind of an org code
   //let data = getClient(token)
-
-  // async await function to drive synchronous processing of db update
   async function thread() {
     let result = await dbMember.get()
     return result
@@ -47,15 +45,13 @@ const getMembers = (token, cb) => {
 
 
 ///////////////////////////////////////////////////////////
-/////// REFACTOR CONNECT Update Profile in Mongo  ////////
+/////// REFACTOR CONNECT Update Member in Mongo   ////////
 /////////////////////////////////////////////////////////
 
-const updateProfile = (token, contact, cb) => {
+const updateMember = (token, contact, cb) => {
 
   // need a model design - some kind of an org code
   //let data = getClient(token)
-
-  // async await function to drive synchronous processing of db update
   async function thread(data, contact) {
     let result = await updateRecord(data, contact)
     return result
@@ -81,9 +77,9 @@ function updateRecord(data, contact){
 ///////////////////////////////////////////////////
 // REFACTOR - TEST MONGO INTEGRATION with CHAT WIDGET
 /////////////////////////////////////////////////
-const addMember = (token, contact, cb) => {
+const addMemberFromChat = (token, contact, cb) => {
 
-  console.log("ENTERED addMember")
+  console.log("ENTERED addMember Chat")
   let param = {}
   param.subscribe = {}
   // set defaults
@@ -97,9 +93,30 @@ const addMember = (token, contact, cb) => {
   // need a model design - some kind of an org code
   //let data = getClient(token)
 
+  async function thread(param) {
+    let result = await dbMember.put(param)
+    return result
+  }
+
+  thread(param).then((result) => {
+    cb(result)
+  }).catch((err) => {
+    console.log("ERROR IN Add Member PROCESSING")
+    console.log(err)
+  })
+}
+///////////////////////////////////////////////////
+// REFACTOR - Add new member
+/////////////////////////////////////////////////
+const addMember = (token, contact, cb) => {
+
+  console.log("ENTERED addMember")
+  // need a model design - some kind of an org code
+  //let data = getClient(token)
+
   // async await function to drive synchronous processing of db update
   async function thread(contact) {
-    let result = await dbMember.put(param)
+    let result = await dbMember.put(contact)
     return result
   }
 
@@ -111,8 +128,33 @@ const addMember = (token, contact, cb) => {
   })
 }
 
+
+///////////////////////////////////////////////////////////
+/////// REFACTOR CONNECT Delete Member in Mongo //////////
+/////////////////////////////////////////////////////////
+const deleteMember = (token, id, cb) => {
+  console.log("ENTERED deleteMember")
+
+  // need a model design - some kind of an org code
+  //let data = getClient(token)
+  async function thread(id) {
+    let result = await dbMember.delete(id)
+    return result
+  }
+
+  thread(id).then((result) => {
+    cb(result)
+  }).catch((err) => {
+    console.log("ERROR IN Add Member PROCESSING")
+    console.log(err)
+  })
+}
+
+/////////////////////////////////////
 module.exports = {
+  addMemberFromChat,
   addMember,
+  deleteMember,
   getMembers,
-  updateProfile
+  updateMember
 }

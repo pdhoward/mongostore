@@ -37,16 +37,32 @@ module.exports = {
    })
   },
 
-  update: function(params1, params2, params3, cb) {
-
-    Member.findOneAndUpdate(params1, params2, params3, function (err, response) {
+  update: function(contact) {
+    return new Promise((resolve, reject) => {
+    Member.findOneAndUpdate(contact, function (err, response) {
       if (err) {
-        console.log(r("Error When Updating the Message Text"))
-        return cb(err);
+        console.log(r("Error When Updating Member"))
+        reject(err)
       }
-      return cb(err, response);
+      resolve(response);
+      })
     })
-  }
+  },
+
+  delete: function(id) {
+    return new Promise((resolve, reject) => {
+      Member.remove(id, function(err, response) {
+          if (err) {
+            if (err.error !== 'not_found') {
+              resolve(err)
+            } else {
+              reject(err)
+            }};
+          resolve(response);
+        });
+      })
+    }
+
 
   // fetch users ideas from db in the same geographic are as active user
   // note this search excludes the active user from the search results

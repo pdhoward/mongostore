@@ -78,39 +78,11 @@ app.get('/', (req, res) => {
   res.send(help)
 })
 
-//  TEST CHAT
 
-app.post('/chat', bodyParser.json(), (req, res) => {
-  console.log("this worked")
-  console.log(req.body)
-  //res.send(req.body)
-  if (req.body) {
-        api.addMember(req.token, req.body, function(response){
-          res.status(200).send(response)
-      })
-    }
-    else {
-      res.status(403).send({
-        error: 'Please provide all required data'
-      })
-    }
-})
 
-// display content of various test db stores
-app.get('/showagents', (req, res) => {
-  res.send(api.showagents())
-})
-app.get('/showclients', (req, res) => {
-  res.send(api.showclients())
-})
-app.get('/showpoints', (req, res) => {
-  res.send(api.showpoints())
-})
-app.get('/showcontext', (req, res) => {
-  res.send(api.showcontext())
-})
-
-// simple auth test
+///////////////////////////////////////////////////
+//      Simple authorization test
+/////////////////////////////////////////////////
 app.use((req, res, next) => {
   const token = req.get('Authorization')
   if (token) {
@@ -124,40 +96,36 @@ app.use((req, res, next) => {
   }
 })
 
-
-// administrative apis - membership management
+///////////////////////////////////////////////////
+// Administrative Management
+/////////////////////////////////////////////////
 app.use('/admin', adminRoute)
 
-/*
-app.get('/api', (req, res) => {
-  res.send(api.getMembers(req.token))
-})
-*/
+///////////////////////////////////////////////////
+//  APIs - MongoSB Store
+/////////////////////////////////////////////////
+
 app.get('/api', bodyParser.json(), (req, res) => {
   api.getMembers(req.token, function(response){
     res.status(200).send(response)
   })
 })
 
+
+// remove member -- update to set a boolean flag instead
 app.delete('/api/:id', (req, res) => {
-  res.send(api.removeClient(req.token, req.params.id))
+  api.deleteMember(req.token, req.params.id, function(response){
+    res,status(200).send(response)
+  })
 })
 
+
+// add new member
 app.post('/api', bodyParser.json(), (req, res) => {
-  const { name, email } = req.body
-
-  if (name && email) {
-    res.send(api.add(req.token, req.body))
-  } else {
-    res.status(403).send({
-      error: 'Please provide both a name and email address'
-    })
-  }
-})
-
-app.post('/api/profile', bodyParser.json(), (req, res) => {
   if (req.body) {
-      res.send(api.addProfile(req.token, req.body))
+    api.addMember(req.token, req.body, function(response){
+      res.status(200).send(response)
+      })
     }
     else {
       res.status(403).send({
@@ -166,10 +134,10 @@ app.post('/api/profile', bodyParser.json(), (req, res) => {
     }
 })
 
-// notice the different pattern for handling async db update using await and cb
-app.post('/api/updateprofile', bodyParser.json(), (req, res) => {
+// update member
+app.post('/api/updateMember', bodyParser.json(), (req, res) => {
   if (req.body) {
-        api.updateProfile(req.token, req.body, function(response){
+        api.updateMember(req.token, req.body, function(response){
           res.status(200).send(response)
       })
     }
@@ -179,57 +147,23 @@ app.post('/api/updateprofile', bodyParser.json(), (req, res) => {
       })
     }
 })
-// api modeling the primary platform data stores
-app.get('/api/agent', (req, res) => {
-  res.send(api.getAgent(req.token))
-})
 
-app.get('/api/agentarray', (req, res) => {
-  res.send(api.getAgent(req.token))
+// add a new member from chat widget
+app.post('/chat', bodyParser.json(), (req, res) => {
+  console.log("this worked")
+  console.log(req.body)
+  //res.send(req.body)
+  if (req.body) {
+    api.addMemberFromChat(req.token, req.body, function(response){
+      res.status(200).send(response)
+      })
+    }
+    else {
+      res.status(403).send({
+        error: 'Please provide all required data'
+      })
+    }
 })
-
-app.get('/api/client', (req, res) => {
-  res.send(api.getClient(req.token))
-})
-app.get('/api/context', (req, res) => {
-  res.send(api.getContext(req.token))
-})
-
-app.get('/api/onecontext', bodyParser.json(), (req, res) => {
-  console.log(JSON.stringify(req.query))
-  const { session } = req.query
-  res.send(api.getOneContext(req.token, session))
-})
-
-app.post('/api/context', bodyParser.json(), (req, res) => {
-  const { session, nextAction, context } = req.body
-
-  if ( session && nextAction && context) {
-    res.send(api.addContext(req.token, req.body))
-  } else {
-    res.status(403).send({
-      error: 'Please provide all required data'
-    })
-  }
-})
-
-// api modeling fetch of geojson data - simulating movement and geofencing
-/*
-// webpage
-app.get('/api/geo', (req, res) => {
-  res.sendFile(geoMap, { root: __dirname })
-})
-*/
-//config data - mapbox
-app.get('/api/geoconfig', bodyParser.json(), (req, res) => {
-  res.send(api.getGeoConfig(req.token))
-})
-// geojson
-app.get('/api/geopoints', bodyParser.json(), (req, res) => {
-  res.send(api.getGeoData(req.token))
-})
-
-
 // spin up http server
 app.listen(port, () => {
   console.log('Server listening on port %s, Ctrl+C to stop', port)
