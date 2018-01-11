@@ -39,7 +39,7 @@ module.exports = {
 
   update: function(contact) {
     return new Promise((resolve, reject) => {
-    Member.findOneAndUpdate(contact, function (err, response) {
+    Member.findOneAndUpdate({id: contact.id}, contact, function (err, response) {
       if (err) {
         console.log(r("Error When Updating Member"))
         reject(err)
