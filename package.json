@@ -18,6 +18,7 @@
     "cors": "^2.8.3",
     "express": "^4.15.2",
     "mongoose": "4.5.6",
+    "morgan": "^1.7.0",
     "nodemailer": "^2.6.0",
     "stately.js": "2.0.0",
     "uuid": "3.1.0"
