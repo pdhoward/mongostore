@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Schema Example</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+      crossorigin="anonymous">
+    <style>
+      input{
+        display: block;
+        font-size: 24px;
+        height: 36px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='container bg-faded'>
+      <div class='row'>
+       <div class='web-widget'>
+
+    <form action="/submit" method="post">
+      <input type="text" name="string" placeholder="string">
+      <input type="number" name="number" placeholder="number">
+      <input type="text" name ="email" placeholder="email">
+      <input type="text" name="longstring" placeholder="At least 6 characters">
+
+      <!-- Uncomment me to show how date works-->
+      <!-- <input type="date" name="date"> -->
+
+      <input type="submit" style="background-color:rgb(255,0,0)">
+    </form>
+    </div>
+  </div>
+  </div>
+  </body>
+</html>

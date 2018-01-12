@@ -164,6 +164,12 @@ app.post('/chat', bodyParser.json(), (req, res) => {
       })
     }
 })
+
+///////////////////////////////////////////////////
+// State Machine 
+/////////////////////////////////////////////////
+var Example = require("./db/schemas/exampleModel.js");
+
 // spin up http server
 app.listen(port, () => {
   console.log('Server listening on port %s, Ctrl+C to stop', port)
