@@ -17,6 +17,7 @@ let objMsg = {
 
 
 exports.getobject = (req, res, msg) => {
+  cnt++
   let priorCnt = cnt - 1
   Example.findOne({ 'name': 'ChaoticBot', 'number': priorCnt }, function (err, profile) {
     if (err) return handleError(err);
