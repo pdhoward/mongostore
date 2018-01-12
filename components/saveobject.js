@@ -1,5 +1,5 @@
 
-var Example = require("../exampleModel.js");
+var Example = require("../db/schemas/exampleModel.js");
 
 let cnt = 1000
 let objMsg = {
