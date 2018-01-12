@@ -7,6 +7,7 @@
 const express =     require('express')
 const bodyParser =  require('body-parser')
 const cors =        require('cors')
+const logger =      require("morgan");
 const api =         require('./api')
 const setup =       require('./config').init();
 const transport =   require('./setup/gmail')
@@ -24,6 +25,7 @@ require('./db/mongoose')(db);
 //////////////////////////////////////////////////////////////////////////
 ////////////////////  Register Middleware       /////////////////////////
 ////////////////////////////////////////////////////////////////////////
+app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static('public'));
@@ -166,9 +168,32 @@ app.post('/chat', bodyParser.json(), (req, res) => {
 })
 
 ///////////////////////////////////////////////////
-// State Machine 
+// State Machine
 /////////////////////////////////////////////////
 var Example = require("./db/schemas/exampleModel.js");
+
+const machineRoute =     express.Router();
+require('./routes/machine/design1')(machineRoute);
+
+app.get("/machine", machineRoute )
+
+app.post("/submit", function(req, res) {
+
+  req.body.array = ["item1", "item2", "item3"];
+  req.body.boolean = false;
+
+  var content = new Example(req.body);
+
+  content.save(function(error, doc) {
+    if (error) {
+      res.send(error);
+    }
+    else {
+      res.send(doc);
+    }
+  });
+});
+
 
 // spin up http server
 app.listen(port, () => {
